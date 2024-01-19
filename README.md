@@ -11,7 +11,14 @@ A physics-based Plinko game created using Matter.js. This project was built foll
 
 ## Screenshots
 
-![Screenshot 1](screenshots/screenshot1.png)
+![Screenshot 1](Pegs.png)
+
+## Demo
+
+<video width="640" height="360" controls>
+  <source src="Plinko game.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ## Acknowledgments
 

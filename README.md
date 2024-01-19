@@ -11,7 +11,7 @@ A physics-based Plinko game created using Matter.js. This project was built foll
 
 ## Screenshots
 
-![Screenshot 1](Pegs.png)
+![Screenshot 1](assests/images/Pegs.png)
 
 ## Demo
 

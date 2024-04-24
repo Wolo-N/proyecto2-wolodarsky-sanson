@@ -1,8 +1,8 @@
 
 
-let Engine = Matter.Engine,
-    World = Matter.World,
-    Bodies = Matter.Bodies;
+const Engine = Matter.Engine;
+const World = Matter.World;
+const Bodies = Matter.Bodies;
 
 let engine;
 let world;
@@ -11,21 +11,15 @@ let particles = [];
 let pegs = [];
 let rows = 11;
 let cols = 10;
-
+let particleSize = 10;
 let bounds = [];
 
+// Caudal, cuanto mas bajo mas bolitas.
+let caudal = 30;
 
-// ===========================
-//          Input.js
-// ===========================
+let plinkoSize = 7;
 
-// const todos = [
-//     "Delete all tests",
-//     "Delete all code",
-//     "Santhosh"
-// ];
 
-// document.getElementById("todos").innerHTML = todos.join("");
 
 function setup() {
     console.log("Setup funtion called!!")
@@ -33,7 +27,8 @@ function setup() {
     colorMode(HSB); 
     engine = Engine.create();
     world = engine.world;
-    // world.gravity.y = 2;
+    world.gravity.y = 2;
+
     newParticle();
     const spacing = width / cols;
     for(let i = 0; i < rows + 1; i++) {
@@ -43,7 +38,7 @@ function setup() {
                 x += spacing / 2;
             }
             let y = spacing + j * spacing;
-            let peg = new Peg(x, y, 4);
+            let peg = new Peg(x, y, plinkoSize);
             pegs.push(peg);
         }
     }
@@ -62,17 +57,22 @@ function setup() {
 }
 
 function newParticle() {
-    const p = new Particle(300, 0, 10);
+    // primer argumento == dropspot (horizontal desde arriba)
+    const p = new Particle(random(100,600), 0, particleSize);
     particles.push(p);
 }
 
 function draw() {
-    if(frameCount % 120 == 0) {
+    // Caudal de droppeo
+    if(frameCount % caudal == 0) {
         newParticle();
     }
-    background(0, 0, 0);
+    // Color del Fondo
+    background(30);
     Engine.update(engine, 1000 / 60);
-    for(let i=0;i<particles.length;i++){
+
+
+    for(let i=0; i<particles.length; i++){
         particles[i].show();
         if(particles[i].isOffScreen()) {
             World.remove(world, particles[i].body);

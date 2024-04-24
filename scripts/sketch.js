@@ -86,5 +86,28 @@ function draw() {
     for(const element of bounds){
         element.show();
     }
-    
+
+    let particleInfoDiv = document.getElementById('particleInfo');
+    particleInfoDiv.textContent = ''; // Clear the div
+  
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].show();
+  
+        if (particles[i].isMouseOver()) {
+        let particle = particles[i];
+        // Update the text content of the particleInfo div with the current particle info
+        particleInfoDiv.textContent = `Particle at x: ${particle.body.position.x.toFixed(2)}, y: ${particle.body.position.y.toFixed(2)}`;
+        }
+    }
 }
+
+function displayInfo(particle) {
+    // Here you define what information to show and style your text
+    const info = `Particle at x: ${particle.body.position.x.toFixed(2)}, y: ${particle.body.position.y.toFixed(2)}`;
+    
+    fill(255); // White text color
+    noStroke();
+    textAlign(CENTER, CENTER);
+    textSize(16);
+    text(info, particle.body.position.x, particle.body.position.y - particle.r * 2);
+  }

@@ -2,7 +2,6 @@
 function Particle(x, y, r) {
     // Array of specific colors in RGB format
     const colors = [
-
         // No aparecen del color que queremos.
         { r: 254, g: 136, b: 212 }, // Pink: #FE88D4
         { r: 1, g: 207, b: 255 },   // Cyan: #01CFFF
@@ -32,6 +31,7 @@ function Particle(x, y, r) {
     }
 
     Particle.prototype.show = function() {
+
         noStroke();
         fill(this.color.r, this.color.g, this.color.b); // Use the color property
         const pos = this.body.position;
@@ -40,4 +40,9 @@ function Particle(x, y, r) {
         ellipse(0,0, this.r * 2); 
         pop();
       }
+      
+    Particle.prototype.isMouseOver = function() {
+        const distance = dist(mouseX, mouseY, this.body.position.x, this.body.position.y);
+        return distance < this.r;
+    };
 }

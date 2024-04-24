@@ -19,7 +19,10 @@ let caudal = 30;
 
 let plinkoSize = 7;
 
-
+let particleData;
+function preload() {
+    particleData = loadTable('ENCUESTA.csv', 'csv', 'header');
+}
 
 function setup() {
     console.log("Setup funtion called!!")
@@ -53,12 +56,22 @@ function setup() {
         let y = height - h/2;
         let bucket = new Boundary(x, y, w, h);
         bounds.push(bucket);
+
+    // Create particles based on the loaded CSV data
+    for (let i = 0; i < particleData.getRowCount(); i++) {
+        let row = particleData.getRow(i);
+        let x = row.getNum("x");
+        let y = row.getNum("y");
+        let name = row.getString("Nombre Completo");
+        let gender = row.getString("Genero");
+        let birthplace = row.getString("Lugar de nacimiento");
+        let residence = row.getString("Lugar de residencia actual");
+        particles.push(new Particle(x, y, 10, name, gender, birthplace, residence)); // Assuming a radius of 10
     }
 }
 
-function newParticle() {
-    // primer argumento == dropspot (horizontal desde arriba)
-    const p = new Particle(random(100,600), 0, particleSize);
+function newParticle(x, y) {
+    const p = new Particle(x, y, particleSize);
     particles.push(p);
 }
 
@@ -110,4 +123,5 @@ function displayInfo(particle) {
     textAlign(CENTER, CENTER);
     textSize(16);
     text(info, particle.body.position.x, particle.body.position.y - particle.r * 2);
-  }
+}
+}

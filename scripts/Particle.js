@@ -39,8 +39,7 @@ function Particle(x, y, r) {
         translate(pos.x, pos.y);
         ellipse(0,0, this.r * 2); 
         pop();
-      }
-      
+    }
     Particle.prototype.isMouseOver = function() {
         const distance = dist(mouseX, mouseY, this.body.position.x, this.body.position.y);
         return distance < this.r;

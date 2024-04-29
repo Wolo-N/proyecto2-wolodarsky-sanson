@@ -1,3 +1,4 @@
+import { persons } from 'persons.js';
 
 
 const Engine = Matter.Engine;
@@ -14,8 +15,7 @@ let cols = 10;
 let particleSize = 10;
 let bounds = [];
 
-// Caudal, cuanto mas bajo mas bolitas.
-let caudal = 30;
+let currentPersonIndex = 0;  // Initialize it at the top of your script
 
 let plinkoSize = 7;
 
@@ -23,13 +23,14 @@ let plinkoSize = 7;
 
 function setup() {
     console.log("Setup funtion called!!")
+    console.log(persons); // For testing, to see if data is loaded correctly
+
     createCanvas(600, 700);
     colorMode(HSB); 
     engine = Engine.create();
     world = engine.world;
     world.gravity.y = 2;
 
-    newParticle();
     const spacing = width / cols;
     for(let i = 0; i < rows + 1; i++) {
         for(let j = 0; j < cols - 1; j++){
@@ -41,6 +42,9 @@ function setup() {
             let peg = new Peg(x, y, plinkoSize);
             pegs.push(peg);
         }
+    document.getElementById('dropButton').addEventListener('click', function() {
+        newParticle();
+    });
     }
 
     let b = new Boundary(width/2, height + 50, width, 100);
@@ -57,16 +61,17 @@ function setup() {
 }
 
 function newParticle() {
-    // primer argumento == dropspot (horizontal desde arriba)
-    const p = new Particle(random(100,600), 0, particleSize);
-    particles.push(p);
+    if (currentPersonIndex < persons.length) {
+        const person = persons[currentPersonIndex];
+        const p = new Particle(random(100, 600), 0, particleSize, person);
+        particles.push(p);
+        currentPersonIndex++;  // Move to the next person
+    } else {
+        console.log("No more persons to drop as particles");
+    }
 }
 
 function draw() {
-    // Caudal de droppeo
-    if(frameCount % caudal == 0) {
-        newParticle();
-    }
     // Color del Fondo
     background(30);
     Engine.update(engine, 1000 / 60);

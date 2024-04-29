@@ -1,16 +1,18 @@
+const { SecondaryAuthTokenContextImpl } = require("twilio/lib/rest/accounts/v1/secondaryAuthToken");
 
 function Particle(x, y, r) {
     // Array of specific colors in RGB format
     const colors = [
         // No aparecen del color que queremos.
         { r: 254, g: 136, b: 212 }, // Pink: #FE88D4
-        { r: 1, g: 207, b: 255 },   // Cyan: #01CFFF
+        { r: 255, g: 207, b: 255 },   // Cyan: #01CFFF
         { r: 255, g: 153, b: 0 }    // Orange: #FF9900
     ];
 
     // Select a random color from the array
-    const colorIndex = floor(random(3)); // Get a random index 0, 1, or 2
+    const colorIndex = 1; // Get a random index 0, 1, or 2
     this.color = colors[colorIndex]; // Assign one of the specific colors
+    this.person = person;
 
     const options = {
         isStatic : false,
@@ -32,7 +34,7 @@ function Particle(x, y, r) {
 
     Particle.prototype.show = function() {
 
-        noStroke();
+        stroke(255);
         fill(this.color.r, this.color.g, this.color.b); // Use the color property
         const pos = this.body.position;
         push();

@@ -1,4 +1,4 @@
-var persons = [
+export const persons = [
     {
       "Nombre Completo": "Tomás Gallo",
       "Genero": "Masculino",

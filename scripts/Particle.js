@@ -21,7 +21,13 @@ function Particle(x, y, r, isStatic= true) {
     } else{
         this.color = orangeHex;
     }
-
+    if (persons[particleCounter]['Distancia a UTDT']>600){
+        this.stroke = 'red'
+    }else if (persons[particleCounter]['Distancia a UTDT']<600 && persons[particleCounter]['Distancia a UTDT']>100){
+        this.stroke = 'yellow'
+    }else{
+        this.stroke = 'green'
+    }
     particleCounter++; // Assign and increment the particle counter
 
     const options = {
@@ -44,7 +50,7 @@ function Particle(x, y, r, isStatic= true) {
 
     Particle.prototype.show = function() {
 
-        noStroke();
+        stroke(this.stroke);
         fill(this.color); // Use the color property
         const pos = this.body.position;
         push();

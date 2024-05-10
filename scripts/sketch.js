@@ -13,6 +13,7 @@ let rows = 11;
 let cols = 10;
 let particleSize = 10;
 let bounds = [];
+let particleCounter = 0;
 
 // Caudal, cuanto mas bajo mas bolitas.
 let caudal = 30;
@@ -22,14 +23,13 @@ let plinkoSize = 7;
 
 
 function setup() {
-    console.log("Setup funtion called!!")
+    console.log(persons[1])
     createCanvas(600, 700);
     colorMode(HSB); 
     engine = Engine.create();
     world = engine.world;
     world.gravity.y = 2;
 
-    newParticle();
     const spacing = width / cols;
     for(let i = 0; i < rows + 1; i++) {
         for(let j = 0; j < cols - 1; j++){
@@ -46,6 +46,13 @@ function setup() {
     let b = new Boundary(width/2, height + 50, width, 100);
     bounds.push(b);
 
+    let leftBoundary = new Boundary(0, height / 2, 1, height);
+    bounds.push(leftBoundary);
+
+    // Right boundary
+    let rightBoundary = new Boundary(width, height / 2, 1, height);
+    bounds.push(rightBoundary);
+    
     for(let i = 0; i < rows + 1; i++){
         let x = i * spacing;
         let w = 10;
@@ -54,19 +61,44 @@ function setup() {
         let bucket = new Boundary(x, y, w, h);
         bounds.push(bucket);
     }
+    // Button setup
+    const dropButton = document.getElementById('dropButton');
+    let i = 0;
+    dropButton.addEventListener('click', function() {
+        console.log(i)
+        if (particles.length > 0) {
+            // Generate a random index
+            const index = Math.floor(Math.random() * particles.length);
+    
+            // Select the particle at the random index and set it to dynamic
+            Matter.Body.setStatic(particles[index].body, false);
+    
+            // Optional: Remove the particle from the array if you don't want it to be selected again
+            // particles.splice(index, 1);
+        }
+        i++;
+    });
+
+
+    let o = 1
+    while(o < 37){
+        newParticle(o*16,kmAy(persons[particleCounter]["Distancia a UTDT"]))
+        o++;
+    }
 }
 
-function newParticle() {
-    // primer argumento == dropspot (horizontal desde arriba)
-    const p = new Particle(random(100,600), 0, particleSize);
+function newParticle(x, y) {
+    // Ensure default values if none are provided
+    let xPos = x || random(100, 600); // Use given x or random if not specified
+    let yPos = y || 0; // Use given y or default to 0 if not specified
+
+    const p = new Particle(xPos, yPos, 10);
     particles.push(p);
 }
 
+
+
 function draw() {
-    // Caudal de droppeo
-    if(frameCount % caudal == 0) {
-        newParticle();
-    }
     // Color del Fondo
     background(30);
     Engine.update(engine, 1000 / 60);
@@ -89,25 +121,25 @@ function draw() {
 
     let particleInfoDiv = document.getElementById('particleInfo');
     particleInfoDiv.textContent = ''; // Clear the div
-  
+
     for (let i = 0; i < particles.length; i++) {
         particles[i].show();
-  
+
         if (particles[i].isMouseOver()) {
         let particle = particles[i];
         // Update the text content of the particleInfo div with the current particle info
-        particleInfoDiv.textContent = `Particle at x: ${particle.body.position.x.toFixed(2)}, y: ${particle.body.position.y.toFixed(2)}`;
+        particleInfoDiv.textContent = `${persons[particle.id]["Nombre Completo"]} de ${persons[particle.id]["Lugar de nacimiento"]}`;
         }
     }
 }
 
 function displayInfo(particle) {
     // Here you define what information to show and style your text
-    const info = `Particle at x: ${particle.body.position.x.toFixed(2)}, y: ${particle.body.position.y.toFixed(2)}`;
-    
+    const info = `Nombre: ${particle.person['Nombre Completo']}, Particle at x: ${particle.body.position.x.toFixed(2)}, y: ${particle.body.position.y.toFixed(2)}`;
+
     fill(255); // White text color
     noStroke();
     textAlign(CENTER, CENTER);
     textSize(16);
     text(info, particle.body.position.x, particle.body.position.y - particle.r * 2);
-  }
+}

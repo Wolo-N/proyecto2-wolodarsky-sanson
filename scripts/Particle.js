@@ -1,19 +1,31 @@
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
 
-function Particle(x, y, r) {
+
+function Particle(x, y, r, isStatic= true) {
+    this.id = particleCounter;
     // Array of specific colors in RGB format
-    const colors = [
-        // No aparecen del color que queremos.
-        { r: 254, g: 136, b: 212 }, // Pink: #FE88D4
-        { r: 1, g: 207, b: 255 },   // Cyan: #01CFFF
-        { r: 255, g: 153, b: 0 }    // Orange: #FF9900
-    ];
+    const pink = { r: 254, g: 136, b: 212 }; // Pink: #FE88D4
+    const cyan =    { r: 1, g: 207, b: 255 };   // Cyan: #01CFFF
+    const orange =    { r: 255, g: 153, b: 0 };    // Orange: #FF9900
+    const pinkHex = rgbToHex(pink.r, pink.g, pink.b);
+    const cyanHex = rgbToHex(cyan.r, cyan.g, cyan.b);
+    const orangeHex = rgbToHex(orange.r, orange.g, orange.b);
 
-    // Select a random color from the array
-    const colorIndex = floor(random(3)); // Get a random index 0, 1, or 2
-    this.color = colors[colorIndex]; // Assign one of the specific colors
+
+    if (persons[particleCounter]["Genero"] == 'Masculino'){
+        this.color = cyanHex; 
+    } else if (persons[particleCounter]["Genero"] == 'Femenino'){
+        this.color = pinkHex;
+    } else{
+        this.color = orangeHex;
+    }
+
+    particleCounter++; // Assign and increment the particle counter
 
     const options = {
-        isStatic : false,
+        isStatic : isStatic,
         mass : 0,
         density : 1,
         restitution : 1.1,
@@ -33,7 +45,7 @@ function Particle(x, y, r) {
     Particle.prototype.show = function() {
 
         noStroke();
-        fill(this.color.r, this.color.g, this.color.b); // Use the color property
+        fill(this.color); // Use the color property
         const pos = this.body.position;
         push();
         translate(pos.x, pos.y);

@@ -1,5 +1,3 @@
-
-
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
@@ -65,18 +63,22 @@ function setup() {
     const dropButton = document.getElementById('dropButton');
     let i = 0;
     dropButton.addEventListener('click', function() {
-        console.log(i)
-        if (particles.length > 0) {
-            // Generate a random index
-            const index = Math.floor(Math.random() * particles.length);
-    
-            // Select the particle at the random index and set it to dynamic
-            Matter.Body.setStatic(particles[index].body, false);
-    
-            // Optional: Remove the particle from the array if you don't want it to be selected again
-            // particles.splice(index, 1);
+        // Filter to get only static particles
+    const staticParticles = particles.filter(p => p.body.isStatic);
+
+    if (staticParticles.length > 0) {
+        // Generate a random index from the static particles array
+        const index = Math.floor(Math.random() * staticParticles.length);
+
+        // Select the particle at the random index and set it to dynamic
+        Matter.Body.setStatic(staticParticles[index].body, false);
+
+        // Optional: Log the action or update the UI as necessary
+        console.log("Dropped particle:", staticParticles[index]);
+
+        } else {
+            console.log("No more static particles to drop.");
         }
-        i++;
     });
 
 

@@ -23,16 +23,16 @@ let plinkoSize = 7;
 function setup() {
     console.log(persons[1])
     createCanvas(600, 700);
-    colorMode(HSB); 
+    colorMode(HSB);
     engine = Engine.create();
     world = engine.world;
     world.gravity.y = 2;
 
     const spacing = width / cols;
-    for(let i = 0; i < rows + 1; i++) {
-        for(let j = 0; j < cols - 1; j++){
+    for (let i = 0; i < rows + 1; i++) {
+        for (let j = 0; j < cols - 1; j++) {
             let x = i * spacing;
-            if( j % 2 == 0) {
+            if (j % 2 == 0) {
                 x += spacing / 2;
             }
             let y = spacing + j * spacing;
@@ -41,7 +41,7 @@ function setup() {
         }
     }
 
-    let b = new Boundary(width/2, height + 50, width, 100);
+    let b = new Boundary(width / 2, height + 50, width, 100);
     bounds.push(b);
 
     let leftBoundary = new Boundary(0, height / 2, 1, height);
@@ -50,31 +50,31 @@ function setup() {
     // Right boundary
     let rightBoundary = new Boundary(width, height / 2, 1, height);
     bounds.push(rightBoundary);
-    
-    for(let i = 0; i < rows + 1; i++){
+
+    for (let i = 0; i < rows + 1; i++) {
         let x = i * spacing;
         let w = 10;
         let h = 100;
-        let y = height - h/2;
+        let y = height - h / 2;
         let bucket = new Boundary(x, y, w, h);
         bounds.push(bucket);
     }
     // Button setup
     const dropButton = document.getElementById('dropButton');
     let i = 0;
-    dropButton.addEventListener('click', function() {
+    dropButton.addEventListener('click', function () {
         // Filter to get only static particles
-    const staticParticles = particles.filter(p => p.body.isStatic);
+        const staticParticles = particles.filter(p => p.body.isStatic);
 
-    if (staticParticles.length > 0) {
-        // Generate a random index from the static particles array
-        const index = Math.floor(Math.random() * staticParticles.length);
+        if (staticParticles.length > 0) {
+            // Generate a random index from the static particles array
+            const index = Math.floor(Math.random() * staticParticles.length);
 
-        // Select the particle at the random index and set it to dynamic
-        Matter.Body.setStatic(staticParticles[index].body, false);
+            // Select the particle at the random index and set it to dynamic
+            Matter.Body.setStatic(staticParticles[index].body, false);
 
-        // Optional: Log the action or update the UI as necessary
-        console.log("Dropped particle:", staticParticles[index]);
+            // Optional: Log the action or update the UI as necessary
+            console.log("Dropped particle:", staticParticles[index]);
 
         } else {
             console.log("No more static particles to drop.");
@@ -83,8 +83,8 @@ function setup() {
 
 
     let o = 1
-    while(o < 37){
-        newParticle(o*16,kmAy(persons[particleCounter]["Distancia a UTDT"]))
+    while (o < 37) {
+        newParticle(o * 16, kmAy(persons[particleCounter]["Distancia a UTDT"]))
         o++;
     }
 }
@@ -106,18 +106,18 @@ function draw() {
     Engine.update(engine, 1000 / 60);
 
 
-    for(let i=0; i<particles.length; i++){
+    for (let i = 0; i < particles.length; i++) {
         particles[i].show();
-        if(particles[i].isOffScreen()) {
+        if (particles[i].isOffScreen()) {
             World.remove(world, particles[i].body);
             particles.splice(i, 1);
             i--;
         }
     }
-    for(const element of pegs){
+    for (const element of pegs) {
         element.show();
     }
-    for(const element of bounds){
+    for (const element of bounds) {
         element.show();
     }
 
@@ -128,9 +128,9 @@ function draw() {
         particles[i].show();
 
         if (particles[i].isMouseOver()) {
-        let particle = particles[i];
-        // Update the text content of the particleInfo div with the current particle info
-        particleInfoDiv.textContent = `${persons[particle.id]["Nombre Completo"]} de ${persons[particle.id]["Lugar de nacimiento"]}`;
+            let particle = particles[i];
+            // Update the text content of the particleInfo div with the current particle info
+            particleInfoDiv.textContent = `${persons[particle.id]["Nombre Completo"]} de ${persons[particle.id]["Lugar de nacimiento"]}`;
         }
     }
 }

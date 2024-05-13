@@ -13,7 +13,7 @@ function Particle(x, y, r, isStatic= true) {
     const cyanHex = rgbToHex(cyan.r, cyan.g, cyan.b);
     const orangeHex = rgbToHex(orange.r, orange.g, orange.b);
 
-
+    this.stroke = 1000000;
     if (persons[particleCounter]["Genero"] == 'Masculino'){
         this.color = cyanHex; 
     } else if (persons[particleCounter]["Genero"] == 'Femenino'){
@@ -22,19 +22,20 @@ function Particle(x, y, r, isStatic= true) {
         this.color = orangeHex;
     }
     if (persons[particleCounter]['Distancia a UTDT']>600){
-        this.stroke = 'red'
+        this.stroke = rgbToHex(242, 78, 30);
     }else if (persons[particleCounter]['Distancia a UTDT']<600 && persons[particleCounter]['Distancia a UTDT']>100){
-        this.stroke = 'yellow'
+        this.stroke = rgbToHex(226, 186, 45)
     }else{
-        this.stroke = 'green'
+        this.stroke = rgbToHex(142, 207, 59)
     }
-    particleCounter++; // Assign and increment the particle counter
 
+    particleCounter++; // Assign and increment the particle counter
+    this.s
     const options = {
         isStatic : isStatic,
         mass : 0,
         density : 1,
-        restitution : 1.1,
+        restitution : 0.5,
         friction : 1
 }
 
@@ -51,6 +52,7 @@ function Particle(x, y, r, isStatic= true) {
     Particle.prototype.show = function() {
 
         stroke(this.stroke);
+        strokeWeight(2);
         fill(this.color); // Use the color property
         const pos = this.body.position;
         push();

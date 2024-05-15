@@ -102,7 +102,7 @@ function newParticle(x, y) {
 
 function draw() {
     // Color del Fondo
-    background(30);
+    background('#1f2229');
     Engine.update(engine, 1000 / 60);
 
 

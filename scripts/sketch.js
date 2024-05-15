@@ -48,7 +48,7 @@ function setup() {
     bounds.push(leftBoundary);
 
     // Right boundary
-    let rightBoundary = new Boundary(width, height / 2, 1, height);
+    let rightBoundary = new Boundary(width+1, height / 2, 1, height);
     bounds.push(rightBoundary);
 
     for (let i = 0; i < rows + 1; i++) {

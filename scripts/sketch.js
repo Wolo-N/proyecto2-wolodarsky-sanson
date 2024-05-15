@@ -81,8 +81,8 @@ function setup() {
         }
     });
 
-    let o = 1;
-    while (o < 37) {
+    let randomValues = [];
+    for (let o = 1; o < 37; o++) {
         let randomIntDrop;
         let y = kmAy(persons[particleCounter]["Distancia a UTDT"]);
         let attempts = 0;
@@ -91,12 +91,12 @@ function setup() {
         do {
             randomIntDrop = Math.floor(Math.random() * 601);
             attempts++;
-        } while (isOverlapping(randomIntDrop, y) && attempts < maxAttempts);
+        } while (randomValues.includes(randomIntDrop) && attempts < maxAttempts);
 
         if (attempts < maxAttempts) {
+            randomValues.push(randomIntDrop);
             newParticle(randomIntDrop, y);
             particleCounter++;
-            o++;
         } else {
             console.log('Max attempts reached, unable to place particle without overlap.');
             break;
@@ -104,19 +104,6 @@ function setup() {
     }
 }
 
-function isOverlapping(x, y) {
-    const minDistance = particleSize * 2; // Minimum distance to avoid overlap
-    for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
-        let dx = p.body.position.x - x;
-        let dy = p.body.position.y - y;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        if (distance < minDistance) {
-            return true;
-        }
-    }
-    return false;
-}
 
 function newParticle(x, y) {
     // Ensure default values if none are provided

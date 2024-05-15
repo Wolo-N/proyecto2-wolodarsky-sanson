@@ -44,7 +44,7 @@ function setup() {
     let b = new Boundary(width / 2, height + 50, width, 100);
     bounds.push(b);
 
-    let leftBoundary = new Boundary(0, height / 2, 1, height);
+    let leftBoundary = new Boundary(0-1, height / 2, 1, height);
     bounds.push(leftBoundary);
 
     // Right boundary

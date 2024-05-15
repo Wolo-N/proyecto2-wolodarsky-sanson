@@ -81,11 +81,26 @@ function setup() {
         }
     });
 
-    let o = 1
+    let o = 1;
     while (o < 37) {
-        let randomIntDrop = Math.floor(Math.random() * 601)
-        newParticle(randomIntDrop, kmAy(persons[particleCounter]["Distancia a UTDT"]))
-        o++;
+        let randomIntDrop;
+        let y = kmAy(persons[particleCounter]["Distancia a UTDT"]);
+        let attempts = 0;
+        let maxAttempts = 100;
+
+        do {
+            randomIntDrop = Math.floor(Math.random() * 601);
+            attempts++;
+        } while (isOverlapping(randomIntDrop, y) && attempts < maxAttempts);
+
+        if (attempts < maxAttempts) {
+            newParticle(randomIntDrop, y);
+            particleCounter++;
+            o++;
+        } else {
+            console.log('Max attempts reached, unable to place particle without overlap.');
+            break;
+        }
     }
 }
 

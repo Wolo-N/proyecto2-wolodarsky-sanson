@@ -81,10 +81,10 @@ function setup() {
         }
     });
 
-
+    let randomIntDrop = Math.floor(Math.random() * 601)
     let o = 1
     while (o < 37) {
-        newParticle(o * 16, kmAy(persons[particleCounter]["Distancia a UTDT"]))
+        newParticle(randomIntDrop, kmAy(persons[particleCounter]["Distancia a UTDT"]))
         o++;
     }
 }

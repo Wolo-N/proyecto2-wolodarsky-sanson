@@ -104,6 +104,20 @@ function setup() {
     }
 }
 
+function isOverlapping(x, y) {
+    const minDistance = particleSize * 2; // Minimum distance to avoid overlap
+    for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        let dx = p.body.position.x - x;
+        let dy = p.body.position.y - y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        if (distance < minDistance) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function newParticle(x, y) {
     // Ensure default values if none are provided
     let xPos = x || random(100, 600); // Use given x or random if not specified
